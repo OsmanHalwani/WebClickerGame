@@ -1,0 +1,258 @@
+ <html> 
+   <head> 
+     
+     <script>
+        <!-- ToDo add function to level up character and add battle system  -->
+       var blocks = 0;
+       var pickAxe = 0 ;
+       var playerLevel =1;
+       var playerHealth = 20;
+       var maxHealth = 20;
+       var playerAttack =10;
+       var playerDefense =10;
+       var costOfPick = 100;
+       var costToLevelUp = 1;
+       var enemyHealth = 27;
+       var enemyLevel = 1;
+       var enemyAttack = 14;
+       var enemyDefense = 10;
+       
+      
+       
+       
+      
+       
+       function buyPickAxe(number){
+       
+         
+         if (blocks >= costOfPick) 
+         {
+           pickAxe=pickAxe+number;
+           blocks = blocks - costOfPick;    // blocks is the same as money
+           costOfPick = costOfPick * 2;
+           document.getElementById("costOfPick").innerHTML = costOfPick; // changing cost of pickaxe in menuu
+           document.getElementById("numPickaxe").innerHTML = pickAxe;
+         }
+       };
+        
+         function buyTNT(number){
+         
+       
+        
+              // blocks is the same as money
+            alert("You lost try again stats will be reset ");
+           
+                 blocks = 0;
+       			 pickAxe = 0 ;
+       	
+       			 costOfPick = 100;
+            
+            document.getElementById("numPickaxe").innerHTML = pickAxe;
+           
+         
+           document.getElementById("blocks").innerHTML = 0;
+            
+            
+           
+            document.getElementById("costOfPick").innerHTML = costOfPick;
+            playerLevel =1;
+        					playerHealth = 20;
+        					maxHealth = 20;
+          				playerAttack =10;
+       					  playerDefense =10;
+                          costToLevelUp = 1;
+                  document.getElementById("playerLevel").innerHTML = playerLevel;
+         
+         document.getElementById("playerHealth").innerHTML = playerHealth;
+         
+         document.getElementById("playerAttack").innerHTML = playerAttack;
+         
+         document.getElementById("playerDefense").innerHTML = playerDefense;
+          document.getElementById("maxHealth").innerHTML = maxHealth;
+          document.getElementById("levelButton").innerHTML = costToLevelUp;
+         
+         
+        
+       };
+       
+       function sellPickAxe(number){
+             if(blocks >= pickAxe && pickAxe >0)
+             {
+               
+               pickAxe=pickAxe-number;
+               blocks=blocks+50;
+               
+    
+               document.getElementById("numPickaxe").innerHTML = pickAxe;
+             }
+             
+           };
+       
+       
+       
+       function clickBlock(number) {
+         
+      blocks = blocks + number;
+          
+        
+      
+      document.getElementById("blocks").innerHTML = blocks;
+   };
+       function levelUp(){
+         
+         
+         if (blocks >= costToLevelUp) {
+         blocks -= costToLevelUp;
+         playerLevel += 1;
+         playerHealth +=5;
+         maxHealth += 5;
+         playerAttack +=3;
+         playerDefense +=2;
+         
+         costToLevelUp = Math.round(playerLevel * playerLevel/2);
+           
+        // costToLevelUp = Math.floor(costToLevelUp);
+           
+         document.getElementById("playerLevel").innerHTML = playerLevel;
+         
+         document.getElementById("playerHealth").innerHTML = playerHealth;
+           
+         document.getElementById("maxHealth").innerHTML = maxHealth;
+         
+         document.getElementById("playerAttack").innerHTML = playerAttack;
+         
+         document.getElementById("playerDefense").innerHTML = playerDefense;
+           
+         document.getElementById("levelButton").innerHTML = costToLevelUp;
+         
+         }
+         
+
+       };
+       
+       function attack(){
+         
+        enemyHealth =  enemyHealth - (playerAttack - enemyDefense/2);
+         
+        playerHealth = playerHealth - (enemyAttack - playerDefense/2);
+          
+         
+             if (playerHealth<=0){
+               
+                  
+                 
+                  
+                  buyTNT();
+               
+                  
+             }
+          
+        
+             if (enemyHealth <= 0) {
+                enemyLevel += 1;
+               blocks += (100 * enemyLevel);
+               
+              
+               enemyAttack += 3;
+               enemyDefense += 2;
+               
+               enemyHealth = 27 + (enemyLevel *5);
+               
+
+             }
+             
+             if (enemyLevel >29){
+               alert("You won ");
+             }
+         
+         
+         document.getElementById("playerLevel").innerHTML = playerLevel;
+         
+         document.getElementById("playerHealth").innerHTML = playerHealth;
+         
+         document.getElementById("playerAttack").innerHTML = playerAttack;
+         
+         document.getElementById("playerDefense").innerHTML = playerDefense;
+       
+         
+             document.getElementById("enemyLevel").innerHTML = enemyLevel;
+
+             document.getElementById("enemyHealth").innerHTML = enemyHealth;
+
+             document.getElementById("enemyAttack").innerHTML = enemyAttack;
+
+             document.getElementById("enemyDefense").innerHTML = enemyDefense;
+          
+           
+          
+         
+      
+         };
+        
+     
+         
+         
+       
+       
+       function healPlayer(){
+          var healButtonCost =  parseInt(document.getElementById("healButton").innerHTML);
+         if (blocks>= healButtonCost){
+         playerHealth = maxHealth;
+        
+         document.getElementById("playerHealth").innerHTML = playerHealth;
+           blocks = blocks - healButtonCost;  
+         healButtonCost+=500;
+         document.getElementById("healButton").innerHTML = healButtonCost;
+         
+         }
+       };
+   
+      window.setInterval(function(){ clickBlock(1 + pickAxe); }, 1000);
+
+       
+     </script>
+   <body>
+     
+   <div class = title >Super Clicker Game, defeating enemies gets you more blocks the goal of the game is to defeat all 30 enemies, Click on the block to increase counter faster or buy more Pickaxes.Watch you health if it goes to 0 you have to reset, but the current enemy you are on will not reset. So always play it safe and heal when your low</div> 
+   
+   <input type="image" id = "cube" src="https://images.freeimages.com/images/large-previews/c7c/block-1528854.jpg" onClick = "clickBlock(1)"  width="200" height="200" /input>
+   <audio loop = "true" autoplay="autoplay"> <source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/ccCommunity/Chad_Crouch/Arps/Chad_Crouch_-_Moonrise.mp3" /> </audio>
+   <button class="clicker" onClick="buyPickAxe(1)">Buy PickAxe: <span id = "costOfPick">100</span></button>
+   <button class="clicker" onClick="sellPickAxe(1)">Sell PickAxe: <span id = "costOfPick">50</span></button>
+   <button class="clicker" onClick="buyTNT(1)">TNT </button>
+   
+   <p>Blocks: <span id="blocks">0</span></p> 
+   <p>Pickaxe: <span id = "numPickaxe">0</span></p>
+   <!--javascript code goes here   <p>TNT: <span id = "TNTCount">0</span></p>-->
+  <h4>Player Stats:</h4>
+     <h5>Level: <span id = "playerLevel">1</span></h5>
+     <h5>Health: <span id = "playerHealth">20</span> / <span id = "maxHealth">20</span> </h5>
+     <h5>Attack: <span id = "playerAttack">10</span></h5>
+     <h5>Defense: <span id = "playerDefense">10</span></h5>
+     <button class="clicker" onClick="levelUp()"style = "position:relative; left:90px; top:-150px;"  >Level Up: <span id = "levelButton"> 1</span></button>
+      <button class="clicker" onClick="healPlayer()" style = "position:relative; left:100px; top:-150px;">heal player: <span id = "healButton">500</span></button>
+     
+     <h4 style = "position:relative; left:400px; top:-234px;">Enemy Stats:</h4>
+     
+     <h5 style = "position:relative; left:400px; top:-234px;" >Level: <span id = "enemyLevel">1</span></h5>
+     <h5 style = "position:relative; left:400px; top:-234px;" >Health: <span id = "enemyHealth">27</span></h5>
+     <h5 style = "position:relative; left:400px; top:-234px;" >Attack: <span id = "enemyAttack">14</span></h5>
+     <h5 style = "position:relative; left:400px; top:-234px;" >Defense: <span id = "enemyDefense">10</span></h5>
+     <button style = "position:relative; left:550px; top:-380px;"class="clicker" onClick="attack()">Click to Attack </button>
+     
+     
+   </body> 
+     <style>
+     body {
+      
+  	  width: 700px;
+      height: 550px;
+     // position:fixed;
+      border: 5px black solid ;
+  	  top: 100px;
+      left: 10px;
+
+       }
+     </style>
+
+</html> 
